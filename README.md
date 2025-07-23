@@ -38,7 +38,3 @@ The bot leverages automation to simplify decision-making and enhance user autono
 
 Developed by [j1ckxr3pp3r](https://github.com/j1ckxr3pp3r), with a focus on building scalable automation tools and thoughtful user interactions.
 
-## License
-
-This project is licensed under the **ISC License**.
-
