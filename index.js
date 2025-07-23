@@ -7,21 +7,21 @@ const fs = require('fs');
 const path = require('path');
 const EventEmitter = require('events');
 
-// Enhanced Configuration with validation
+
 const CONFIG = {
-  BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || "7651998703:AAHUDNJgFixhxPGJhPsTE0um78Cz32OM-bU",
+  BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || "paste the bot token here !",
   DB_PATH: "./bot_data.db",
   SCRAPE_TIMEOUT: 15000,
   MAX_RESULTS_PER_QUERY: 10,
-  CRON_SCHEDULE: "0 9 * * 1", // Every Monday at 9 AM
+  CRON_SCHEDULE: "0 9 * * 1", 
   USER_AGENT: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   MAX_RETRY_ATTEMPTS: 3,
   RATE_LIMIT_DELAY: 1000,
-  SESSION_TIMEOUT: 300000, // 5 minutes
+  SESSION_TIMEOUT: 300000, 
   MAX_CONCURRENT_SCRAPES: 3
 };
 
-// Enhanced Logger
+
 class Logger {
   static log(level, message, data = null) {
     const timestamp = new Date().toISOString();
@@ -30,8 +30,7 @@ class Logger {
     console.log(logMessage);
     if (data) console.log(JSON.stringify(data, null, 2));
 
-    // Optional: Write to file
-    // fs.appendFileSync('bot.log', logMessage + '\n');
+
   }
 
   static info(message, data) { this.log('info', message, data); }
@@ -40,7 +39,7 @@ class Logger {
   static debug(message, data) { this.log('debug', message, data); }
 }
 
-// Enhanced Database Manager
+
 class DatabaseManager extends EventEmitter {
   constructor(dbPath) {
     super();
@@ -181,7 +180,7 @@ class DatabaseManager extends EventEmitter {
   }
 }
 
-// Enhanced Session Manager
+
 class SessionManager {
   constructor(db) {
     this.db = db;
@@ -248,7 +247,7 @@ class SessionManager {
   }
 }
 
-// Enhanced Utility Functions
+
 class BotUtils {
   static createKeyboard(items, prefix = "", columns = 2) {
     const keyboard = [];
@@ -292,7 +291,7 @@ class BotUtils {
   }
 }
 
-// Enhanced Scraping Engine with better error handling
+
 class ScrapingEngine {
   constructor() {
     this.baseUrls = [
@@ -392,7 +391,7 @@ class ScrapingEngine {
   buildSearchUrl(baseUrl, location, filters) {
     const params = new URLSearchParams();
 
-    // Build URL based on site-specific patterns
+   
     if (baseUrl.includes('leboncoin')) {
       params.append('locations', location);
       params.append('category', '10'); // Real estate category
@@ -404,7 +403,7 @@ class ScrapingEngine {
       if (filters.priceMin) params.append('prix', `${filters.priceMin}/${filters.priceMax || 'max'}`);
       return `${baseUrl}/list.htm?${params}`;
     } else {
-      // Generic fallback
+      
       params.append('location', location);
       Object.entries(filters).forEach(([key, value]) => {
         if (value) params.append(key, value);
@@ -417,7 +416,7 @@ class ScrapingEngine {
     const $ = cheerio.load(html);
     const listings = [];
 
-    // Site-specific selectors
+   
     const selectorSets = {
       'leboncoin': {
         container: '[data-qa-id="aditem_container"]',
@@ -466,13 +465,13 @@ class ScrapingEngine {
       const location = this.extractText($element, selectors.location);
       const description = this.extractText($element, '.description, .desc, .details');
 
-      // Extract URL
+      
       let url = $element.find(selectors.url).first().attr('href') || '';
       if (url && !url.startsWith('http')) {
         url = new URL(url, baseUrl).href;
       }
 
-      // Extract images
+      
       const images = [];
       $element.find('img').each((_, img) => {
         const src = $(img).attr('src') || $(img).attr('data-src') || $(img).attr('data-lazy');
@@ -514,7 +513,7 @@ class ScrapingEngine {
   }
 }
 
-// Enhanced Bot Class
+
 class EnhancedTelegramBot {
   constructor() {
     this.db = new DatabaseManager(CONFIG.DB_PATH);
@@ -567,7 +566,7 @@ class EnhancedTelegramBot {
       Logger.error('Bot error:', error);
     });
 
-    // Global message handler with session support
+    
     this.bot.on('message', async (msg) => {
       if (msg.text && !msg.text.startsWith('/')) {
         await this.handleSessionMessage(msg);
@@ -606,37 +605,37 @@ class EnhancedTelegramBot {
   }
 
   setupCommands() {
-    // Start command
+   
     this.bot.onText(/\/start/, async (msg) => {
       await this.handleStart(msg);
     });
 
-    // Search command
+    
     this.bot.onText(/\/search/, async (msg) => {
       await this.handleSearch(msg);
     });
 
-    // Filter command
+    
     this.bot.onText(/\/filter/, async (msg) => {
       await this.handleFilter(msg);
     });
 
-    // Alerts command
+    
     this.bot.onText(/\/alerts/, async (msg) => {
       await this.handleAlerts(msg);
     });
 
-    // Stats command
+    
     this.bot.onText(/\/stats/, async (msg) => {
       await this.handleStats(msg);
     });
 
-    // Help command
+    
     this.bot.onText(/\/help/, async (msg) => {
       await this.handleHelp(msg);
     });
 
-    // Callback query handler
+    
     this.bot.on("callback_query", async (query) => {
       await this.handleCallbackQuery(query);
     });
@@ -678,7 +677,7 @@ class EnhancedTelegramBot {
 
       🛠️ *Support technique :*
       • Essayez /start en cas de problème
-      • Contact : https://www.instagram.com/j1ckxr3ipp3r/
+      • Contact : PASTE URL CONTACT
 
       👇 *Choisissez une ville pour commencer :*`;
 
@@ -766,11 +765,11 @@ class EnhancedTelegramBot {
         return;
       }
 
-      // Send summary
+      
       const summary = this.generateSearchSummary(listings, city);
       await this.editMessage(chatId, loadingMsg.message_id, summary, { parse_mode: "Markdown" });
 
-      // Send individual listings
+      
       const maxListings = Math.min(listings.length, 5);
       for (let i = 0; i < maxListings; i++) {
         const message = this.formatListingMessage(listings[i], i + 1);
@@ -812,7 +811,7 @@ class EnhancedTelegramBot {
       await this.sendMessage(chatId, `✅ Alertes activées pour : ${email}`);
     } else {
       await this.sendMessage(chatId, "❌ Email invalide. Veuillez entrer un email valide :");
-      return; // Don't clear session, wait for valid input
+      return; 
     }
 
     await this.sessions.clearSession(chatId);
@@ -1047,13 +1046,13 @@ class EnhancedTelegramBot {
   }
 
   setupScheduledTasks() {
-    // Weekly alert system
+    
     cron.schedule(CONFIG.CRON_SCHEDULE, async () => {
       Logger.info('Running scheduled alert system');
       await this.sendWeeklyAlerts();
     });
 
-    // Daily cleanup
+    
     cron.schedule('0 0 * * *', async () => {
       Logger.info('Running daily cleanup');
       await this.cleanupExpiredSessions();
@@ -1075,7 +1074,7 @@ class EnhancedTelegramBot {
             propertyType: user.propertyType
           };
 
-          // Mock location - in real implementation, you'd store user's preferred locations
+          
           const listings = await this.scraper.scrapeListings(user.location || 'Paris', filters);
 
           if (listings.length > 0) {
@@ -1088,7 +1087,7 @@ class EnhancedTelegramBot {
             await this.sendMessage(user.chatId, alertMessage, { parse_mode: "Markdown" });
           }
 
-          await BotUtils.sleep(2000); // Rate limiting
+          await BotUtils.sleep(2000); 
         } catch (error) {
           Logger.error(`Alert error for user ${user.chatId}:`, error);
         }
@@ -1160,7 +1159,7 @@ class EnhancedTelegramBot {
       });
     } catch (error) {
       Logger.error('Edit message error:', { chatId, messageId, error: error.message });
-      // Fallback: send new message if edit fails
+      
       return await this.sendMessage(chatId, text, options);
     }
   }
@@ -1188,7 +1187,7 @@ class EnhancedTelegramBot {
   }
 }
 
-// Global error handlers
+
 process.on('uncaughtException', (error) => {
   Logger.error('Uncaught Exception:', error);
   process.exit(1);
@@ -1198,7 +1197,7 @@ process.on('unhandledRejection', (reason, promise) => {
   Logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-// Graceful shutdown handlers
+
 process.on('SIGINT', async () => {
   Logger.info('Received SIGINT signal');
   if (global.botInstance) {
@@ -1217,12 +1216,12 @@ process.on('SIGTERM', async () => {
   }
 });
 
-// Main execution
+
 async function main() {
   try {
     Logger.info('Starting Enhanced Telegram Bot...');
 
-    // Validate required configuration
+   
     if (!CONFIG.BOT_TOKEN || CONFIG.BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
       throw new Error('Bot token not configured. Please set TELEGRAM_BOT_TOKEN environment variable.');
     }
@@ -1246,7 +1245,7 @@ async function main() {
   }
 }
 
-// Start the bot if this file is run directly
+
 if (require.main === module) {
   main();
 }
