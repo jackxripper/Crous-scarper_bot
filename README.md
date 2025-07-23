@@ -32,9 +32,16 @@ The bot leverages automation to simplify decision-making and enhance user autono
 - **node-fetch** — External data retrieval  
 - **node-cron** — Task scheduling  
 - **sqlite3** — Lightweight local database  
-- **chalk** — Console styling for debugging
+- **chalk** — Console styling for debugging  
 
-## Maintainer
+## dependencies
+```bash
+# Install project dependencies
+npm install
+```
+## Note:
+node_modules folder is intentionally excluded from version control via .gitignore, as it can be fully regenerated from package.json using npm install
 
-Developed by [j1ckxr3pp3r](https://github.com/j1ckxr3pp3r), with a focus on building scalable automation tools and thoughtful user interactions.
+thank you : https://github.com/jackxripper
+
 
