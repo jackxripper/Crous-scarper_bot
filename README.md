@@ -1,36 +1,44 @@
 # Crous-scarper_bot
-🛠️ Crous-Scarper Bot — Project Purpose
-🎯 Objective
-This bot was developed to streamline the search for CROUS student housing in France. It provides students with:
 
-Real-time listings scraped from housing sources
+## Project Overview
 
-Search filters for price, surface area, and property type
+**Crous-scarper_bot** is a Telegram-based automation tool designed to assist students in locating CROUS housing opportunities in France. It streamlines housing discovery by scraping listings, applying user-defined filters, and delivering structured results directly through chat.
 
-Telegram-based delivery for ease and accessibility
+## Purpose of Development
 
-Automated alerts and saved searches
+This project was initiated to improve the housing search experience for students. Its goals include:
 
-🚀 Why Build This?
-Finding student accommodation can be frustrating and time-consuming. The Crous-Scarper bot aims to:
+- Reducing manual browsing time  
+- Enabling real-time updates and filtered search results  
+- Providing a responsive and accessible interface via Telegram  
 
-Eliminate the need to manually check for listings
+The bot leverages automation to simplify decision-making and enhance user autonomy during housing periods.
 
-Offer a user-friendly interface and fast responses
+## Key Features
 
-Automate the housing hunt based on user preferences
+- City-based search with intuitive pagination  
+- Filter support for price, surface area, and property type  
+- Live listing retrieval through web scraping  
+- Search history tracking and alert configuration  
+- Persistent user data stored via SQLite  
+- Scheduled background tasks managed through cron jobs  
 
-🧠 Developer Vision
-This project was created by j1ckxr3pp3r as a personal initiative to combine:
+## Technologies Used
 
-Automation with scraping tools
+- **JavaScript (ES modules)**  
+- **Node.js**  
+- **node-telegram-bot-api** — Telegram integration  
+- **cheerio** — HTML parsing for scraping  
+- **node-fetch** — External data retrieval  
+- **node-cron** — Task scheduling  
+- **sqlite3** — Lightweight local database  
+- **chalk** — Console styling for debugging
 
-Clean UX through Telegram commands
+## Maintainer
 
-Robust backend storage with SQLite
+Developed by [j1ckxr3pp3r](https://github.com/j1ckxr3pp3r), with a focus on building scalable automation tools and thoughtful user interactions.
 
-Modern JavaScript practices (ES modules, async/await)
+## License
 
-The bot is intended to be scalable, helpful, and responsive for students navigating housing stress.
+This project is licensed under the **ISC License**.
 
-Let me know if you'd like to add setup instructions, contribution guidelines, or a fun section about cool housing wins from the bot. We can even spice it up with badges or screenshots for GitHub flair 💬📸
